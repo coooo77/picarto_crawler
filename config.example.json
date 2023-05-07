@@ -1,0 +1,13 @@
+{
+  "targetChannels": [
+    "Channel name from Picarto"
+  ],
+  "checkStreamInterval": 30,
+  "recordSetting": {
+    "maxTryTimes": 10,
+    "reTryInterval": 5,
+    "restartInterval": 60,
+    "saveFolder": "path/to/save/record",
+    "prefix": "#"
+  }
+}
