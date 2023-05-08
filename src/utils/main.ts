@@ -49,7 +49,7 @@ class Main {
       common.msg(`Check online list at ${new Date().toLocaleString()} for ${++this.runtimeCount} times`)
 
       for (const channel of targetChannels) {
-        const isRecording = this.recordList[channel.toLowerCase()]
+        const isRecording = this.recordList[channel]
         if (isRecording) {
           common.msg(`${channel} is streaming at https://picarto.tv/${channel}`)
           continue
@@ -117,6 +117,8 @@ class Main {
   }
 
   handleRecord(m3u8_Url: string, streamerName: string, retryCount = 0) {
+    if (this.recordList[streamerName]) return
+
     const { recordSetting } = this.appSetting
 
     if (retryCount >= recordSetting.maxTryTimes) {
@@ -130,7 +132,7 @@ class Main {
       const task = cp.spawn('ffmpeg', `-i ${m3u8_Url} -y -c copy ${filename}`.split(' '))
 
       const recordList = this.recordList
-      recordList[streamerName.toLowerCase()] = {
+      recordList[streamerName] = {
         retryCount,
         pid: task.pid,
         name: streamerName,
