@@ -142,18 +142,13 @@ class Main {
 
       task.stderr.setEncoding('utf8')
       task.stderr.on('data', (msg: string) => {
-        if (msg.includes('Invalid data found when processing input')) {
-          common.msg(`Error: Invalid data found when processing input for streamer ${streamerName}`, 'warn')
-          common.killProcess(task.pid)
-        } else {
-          clearTimeout(this.retryTimers[streamerName])
+        clearTimeout(this.retryTimers[streamerName])
 
-          this.retryTimers[streamerName] = setTimeout(async () => {
-            common.killProcess(task.pid)
-            await common.wait(recordSetting.reTryInterval)
-            this.handleRecord(m3u8_Url, streamerName, ++retryCount)
-          }, recordSetting.restartInterval * 1000)
-        }
+        this.retryTimers[streamerName] = setTimeout(async () => {
+          common.killProcess(task.pid)
+          await common.wait(recordSetting.reTryInterval)
+          this.handleRecord(m3u8_Url, streamerName, ++retryCount)
+        }, recordSetting.restartInterval * 1000)
       })
 
       task.on('spawn', () => {
