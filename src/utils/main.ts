@@ -101,10 +101,11 @@ class Main {
 
   getOutPutFileName(setting: RecordSetting, streamerName: string) {
     const { saveFolder, prefix } = setting
-    fileSys.makeDirIfNotExist(saveFolder)
+    const exportFolder = path.join(saveFolder, streamerName)
+    fileSys.makeDirIfNotExist(exportFolder)
     const { pre, post } = this.timeString()
     const filename = `${prefix}${streamerName}_picarto_${pre}_${post}.ts`
-    return path.join(saveFolder, filename)
+    return path.join(exportFolder, filename)
   }
 
   handleEndStream(streamerName: string) {
