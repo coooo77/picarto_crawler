@@ -14,4 +14,5 @@ export interface RecordSetting {
   restartInterval: number
   saveFolder: string
   prefix: string
+  downloader: 'streamlink' | 'ffmpeg'
 }

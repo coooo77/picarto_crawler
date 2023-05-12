@@ -121,6 +121,7 @@ class Main {
     if (this.recordList[streamerName]) return
 
     const { recordSetting } = this.appSetting
+    const { downloader } = recordSetting
 
     if (retryCount >= recordSetting.maxTryTimes) {
       common.msg(`${streamerName} reached max retries`)
@@ -130,7 +131,11 @@ class Main {
 
     return new Promise((res) => {
       const filename = this.getOutPutFileName(recordSetting, streamerName)
-      const task = cp.spawn('ffmpeg', `-i ${m3u8_Url} -y -c copy ${filename}`.split(' '))
+
+      const task =
+        downloader === 'ffmpeg'
+          ? cp.spawn('ffmpeg', `-i ${m3u8_Url} -y -c copy ${filename}`.split(' '))
+          : cp.spawn('streamlink', `${m3u8_Url} best -o ${filename}`.split(' '))
 
       const recordList = this.recordList
       recordList[streamerName] = {
