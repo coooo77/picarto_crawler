@@ -135,7 +135,7 @@ class Main {
       const task =
         downloader === 'ffmpeg'
           ? cp.spawn('ffmpeg', `-i ${m3u8_Url} -y -c copy ${filename}`.split(' '))
-          : cp.spawn('streamlink', `${m3u8_Url} best -o ${filename}`.split(' '))
+          : cp.spawn('streamlink', `https://picarto.tv/${streamerName} best -o ${filename}`.split(' '))
 
       const recordList = this.recordList
       recordList[streamerName] = {
